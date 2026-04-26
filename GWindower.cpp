@@ -19,8 +19,7 @@
 #include <string.h>
 
 
-static inline void _error(const char* file, int line, const char* func, const std::string& msg)
-        { throw std::runtime_error(std::string("[ERROR] ") + file + "@" + std::to_string(line) + " (" + func + "): " + msg); }
+static inline void _error(const char* file, int line, const char* func, const std::string& msg) { throw std::runtime_error(std::string("[ERROR] ") + file + "@" + std::to_string(line) + " (" + func + "): " + msg); }
 #define ERROR(msg) _error(__FILE__, __LINE__, __func__, (msg))
 
 
@@ -34,27 +33,12 @@ GWindower::GWindower() {
 
         if (!glfwInit()) ERROR("Failed to initialize GLFW");
 
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        if (monitor == NULL) ERROR("Failed to get monitor");
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor(); if (monitor == NULL) ERROR("Failed to get monitor");
 
-        const GLFWvidmode* video_mode = glfwGetVideoMode(monitor);
-        if (video_mode == NULL) ERROR("Failed to get monitor's video mode");
+        const GLFWvidmode* video_mode = glfwGetVideoMode(monitor); if (video_mode == NULL) ERROR("Failed to get monitor's video mode");
 
-        glfwWindowHint(GLFW_RED_BITS, video_mode->redBits);
-        glfwWindowHint(GLFW_GREEN_BITS, video_mode->greenBits);
-        glfwWindowHint(GLFW_BLUE_BITS, video_mode->blueBits);
-        glfwWindowHint(GLFW_REFRESH_RATE, video_mode->refreshRate);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        window = glfwCreateWindow(
-                video_mode->width,
-                video_mode->height,
-                "",
-                monitor,
-                NULL
-        );
-        if (window == NULL) ERROR("Failed to create window");
+        glfwWindowHint(GLFW_RED_BITS, video_mode->redBits); glfwWindowHint(GLFW_GREEN_BITS, video_mode->greenBits); glfwWindowHint(GLFW_BLUE_BITS, video_mode->blueBits); glfwWindowHint(GLFW_REFRESH_RATE, video_mode->refreshRate); glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        window = glfwCreateWindow(video_mode->width, video_mode->height, "", monitor, NULL); if (window == NULL) ERROR("Failed to create window");
 
         this->screen_width = video_mode->width;
         this->screen_height = video_mode->height;
@@ -65,13 +49,8 @@ GWindower::GWindower() {
         #else
                 int platform = glfwGetPlatform();
                 if (platform == 0) ERROR("Failed to get platform");
-
-                if (platform == GLFW_PLATFORM_X11) {
-                        this->native_window_handle = (void*)glfwGetX11Window(window);
-                }
-                else if (platform == GLFW_PLATFORM_WAYLAND) {
-                        this->native_window_handle = (void*)glfwGetWaylandWindow(window);
-                }
+                if (platform == GLFW_PLATFORM_X11) this->native_window_handle = (void*)glfwGetX11Window(window);
+                else if (platform == GLFW_PLATFORM_WAYLAND) this->native_window_handle = (void*)glfwGetWaylandWindow(window);
                 else ERROR("Unsupported platform");
         #endif
         if (this->native_window_handle == NULL) ERROR("Failed to get native window handle");
@@ -111,18 +90,12 @@ bool GWindower::Update() {
         glfwPollEvents();
 
         for (int j = 0; j < GLFW_JOYSTICK_LAST; j++) {
-                if (glfwJoystickIsGamepad(j)) {
-                        GLFWgamepadstate gamepad_state;
-                        if (glfwGetGamepadState(j, &gamepad_state)) {
-                                for (int b = 0; b < GLFW_GAMEPAD_BUTTON_LAST; b++) {
-                                        this->gamepad_buttons[b] = gamepad_state.buttons[b];
-                                }
-                                for (int a = 0; a < GLFW_GAMEPAD_AXIS_LAST; a++) {
-                                        this->gamepad_axes[a] = gamepad_state.axes[a];
-                                }
-                                break;
-                        }
-                }
+                if (!glfwJoystickIsGamepad(j)) continue;
+                GLFWgamepadstate gamepad_state;
+                if (!glfwGetGamepadState(j, &gamepad_state)) continue;
+                for (int b = 0; b < GLFW_GAMEPAD_BUTTON_LAST; b++) this->gamepad_buttons[b] = gamepad_state.buttons[b];
+                for (int a = 0; a < GLFW_GAMEPAD_AXIS_LAST; a++) this->gamepad_axes[a] = gamepad_state.axes[a];
+                break;
         }
 
         return !glfwWindowShouldClose(window);
