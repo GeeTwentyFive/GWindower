@@ -184,14 +184,14 @@ public:
         void* native_window_handle;
         GWindower();
 
-        int key_states[GLFW_KEY_LAST];
-        double mouse_x;
-        double mouse_y;
-        int mouse_button_states[GLFW_MOUSE_BUTTON_LAST];
-        double mouse_scroll_x;
-        double mouse_scroll_y;
-        unsigned char gamepad_buttons[15];
-        float gamepad_axes[6];
+        static int key_states[GLFW_KEY_LAST];
+        static double mouse_x;
+        static double mouse_y;
+        static int mouse_button_states[GLFW_MOUSE_BUTTON_LAST];
+        static double mouse_scroll_x;
+        static double mouse_scroll_y;
+        static unsigned char gamepad_buttons[15];
+        static float gamepad_axes[6];
         bool Update(); // returns `false` if window should close
 
 
