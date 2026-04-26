@@ -2,7 +2,6 @@
 
 #include <GLFW/glfw3.h>
 
-#define GLFW_NATIVE_INCLUDE_NONE
 #ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #else
@@ -126,7 +125,7 @@ bool GWindower::Update() {
                 }
         }
 
-        return glfwWindowShouldClose(window);
+        return !glfwWindowShouldClose(window);
 }
 
 GWindower::~GWindower() { glfwTerminate(); }
