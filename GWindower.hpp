@@ -180,6 +180,7 @@ class GWindower {
 public:
         int screen_width;
         int screen_height;
+        int screen_refresh_rate;
         void* native_window_handle;
         GWindower();
 
