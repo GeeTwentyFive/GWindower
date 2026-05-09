@@ -39,8 +39,8 @@ GWindower::GWindower() {
         #else
                 int platform = glfwGetPlatform();
                 if (platform == 0) ERROR("Failed to get platform");
-                if (platform == GLFW_PLATFORM_X11) this->native_window_handle = (void*)glfwGetX11Window(window);
-                else if (platform == GLFW_PLATFORM_WAYLAND) this->native_window_handle = (void*)glfwGetWaylandWindow(window);
+                if (platform == GLFW_PLATFORM_X11) {this->native_window_handle = (void*)glfwGetX11Window(window); this->native_x11_or_wayland_display = (void*)glfwGetX11Display();}
+                else if (platform == GLFW_PLATFORM_WAYLAND) {this->native_window_handle = (void*)glfwGetWaylandWindow(window); this->native_x11_or_wayland_display = (void*)glfwGetWaylandDisplay();}
                 else ERROR("Unsupported platform");
         #endif
         if (this->native_window_handle == NULL) ERROR("Failed to get native window handle");

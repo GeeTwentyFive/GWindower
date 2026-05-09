@@ -182,6 +182,7 @@ public:
         int screen_height;
         int screen_refresh_rate;
         void* native_window_handle;
+        void* native_x11_or_wayland_display = nullptr; // <- NULL on windows
         GWindower();
 
         inline static int key_states[GLFW_KEY_LAST];
