@@ -178,11 +178,11 @@
 
 class GWindower {
 public:
-        int screen_width;
-        int screen_height;
+        int screen_width; int screen_height;
         int screen_refresh_rate;
-        void* native_window_handle;
-        void* native_x11_or_wayland_display = nullptr; // <- NULL on windows
+        void* native_window_handle; // Win32 HWND / X11 Window* / Wayland wl_surface*
+        void* native_x11_display = nullptr; // <- NULL on windows & wayland
+        void* native_wayland_display = nullptr; // <- NULL on windows & X11
         GWindower();
 
         inline static int key_states[GLFW_KEY_LAST];
