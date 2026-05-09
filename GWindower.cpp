@@ -1,7 +1,6 @@
 #include "GWindower.hpp"
 
 #include <GLFW/glfw3.h>
-
 #ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #else
@@ -10,27 +9,18 @@
 #endif
 #include <GLFW/glfw3native.h>
 
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
 #include <stdexcept>
 #include <string>
 #include <string.h>
 
 
-static inline void _error(const char* file, int line, const char* func, const std::string& msg) { throw std::runtime_error(std::string("[ERROR] ") + file + "@" + std::to_string(line) + " (" + func + "): " + msg); }
-#define ERROR(msg) _error(__FILE__, __LINE__, __func__, (msg))
+#define ERROR(msg) throw std::runtime_error(std::string("[ERROR] ") + __FILE__ + "@" + std::to_string(__LINE__) + " (" + __func__ + "): " + (msg))
 
 
 GLFWwindow* window;
 
 
 GWindower::GWindower() {
-        #ifdef _WIN32
-                timeBeginPeriod(1);
-        #endif
-
         if (!glfwInit()) ERROR("Failed to initialize GLFW");
 
         GLFWmonitor* monitor = glfwGetPrimaryMonitor(); if (monitor == NULL) ERROR("Failed to get monitor");
