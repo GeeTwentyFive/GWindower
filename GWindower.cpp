@@ -46,11 +46,11 @@ GWindower::GWindower() {
         if (this->native_window_handle == NULL) ERROR("Failed to get native window handle");
 
         memset(GWindower::key_states, GLFW_RELEASE, (sizeof(GWindower::key_states) / sizeof(GWindower::key_states[0])));
-        GWindower::mouse_x = 0;
-        GWindower::mouse_y = 0;
+        GWindower::mouse_x_delta = 0;
+        GWindower::mouse_y_delta = 0;
         memset(GWindower::mouse_button_states, GLFW_RELEASE, (sizeof(GWindower::mouse_button_states) / sizeof(GWindower::mouse_button_states[0])));
-        GWindower::mouse_scroll_x = 0;
-        GWindower::mouse_scroll_y = 0;
+        GWindower::mouse_scroll_x_delta = 0;
+        GWindower::mouse_scroll_y_delta = 0;
         memset(GWindower::gamepad_buttons, 0, (sizeof(GWindower::gamepad_buttons) / sizeof(GWindower::gamepad_buttons[0])));
         memset(GWindower::gamepad_axes, GLFW_RELEASE, (sizeof(GWindower::gamepad_axes) / sizeof(GWindower::gamepad_axes[0])));
 
@@ -62,8 +62,9 @@ GWindower::GWindower() {
         });
 
         glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos){
-                GWindower::mouse_x = xpos;
-                GWindower::mouse_y = ypos;
+                GWindower::mouse_x_delta = (int)xpos;
+                GWindower::mouse_y_delta = (int)ypos;
+                glfwSetCursorPos(window, 0.0, 0.0);  // so there is zero precision loss going from doubles to ints
         });
 
         glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods){
@@ -71,8 +72,8 @@ GWindower::GWindower() {
         });
 
         glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset){
-                GWindower::mouse_scroll_x = xoffset;
-                GWindower::mouse_scroll_y = yoffset;
+                GWindower::mouse_scroll_x_delta = xoffset;
+                GWindower::mouse_scroll_y_delta = yoffset;
         });
 }
 

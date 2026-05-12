@@ -1,4 +1,1 @@
-cd ../build &&
-sh build.sh &&
-cd ../_TEST &&
 c++ -O2 -march=x86-64-v2 -I ../libs/linux/glfw main.cpp ../build/libgwindower.a -o TEST
