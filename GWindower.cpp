@@ -61,12 +61,6 @@ GWindower::GWindower() {
                 GWindower::key_states[key] = action;
         });
 
-        glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos){
-                GWindower::mouse_x_delta = (int)xpos;
-                GWindower::mouse_y_delta = (int)ypos;
-                glfwSetCursorPos(window, 0.0, 0.0);  // so there is zero precision loss going from doubles to ints
-        });
-
         glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods){
                 GWindower::mouse_button_states[button] = action;
         });
@@ -79,6 +73,12 @@ GWindower::GWindower() {
 
 bool GWindower::Update() {
         glfwPollEvents();
+
+        double xpos = 0, ypos = 0;
+        glfwGetCursorPos(window, &xpos, &ypos);
+        GWindower::mouse_x_delta = (int)xpos;
+        GWindower::mouse_y_delta = (int)ypos;
+        glfwSetCursorPos(window, 0.0, 0.0);  // so there is zero precision loss going from doubles to ints
 
         for (int j = 0; j < GLFW_JOYSTICK_LAST; j++) {
                 if (!glfwJoystickIsGamepad(j)) continue;
