@@ -1,12 +1,5 @@
 #pragma once
 
-
-#define GLFW_RELEASE                0
-#define GLFW_PRESS                  1
-#define GLFW_REPEAT                 2
-
-#define GLFW_KEY_UNKNOWN            -1
-
 /* Printable keys */
 #define GLFW_KEY_SPACE              32
 #define GLFW_KEY_APOSTROPHE         39  /* ' */
@@ -185,13 +178,13 @@ public:
         void* native_wayland_display = nullptr; // <- NULL on windows & X11
         GWindower();
 
-        inline static int key_states[GLFW_KEY_LAST];
+        inline static bool key_states[GLFW_KEY_LAST];  // `true` = pressed
         inline static int mouse_x_delta;
         inline static int mouse_y_delta;
-        inline static int mouse_button_states[GLFW_MOUSE_BUTTON_LAST];
+        inline static bool mouse_button_states[GLFW_MOUSE_BUTTON_LAST];  // `true` = pressed
         inline static double mouse_scroll_x_delta;
         inline static double mouse_scroll_y_delta;
-        inline static unsigned char gamepad_buttons[15];
+        inline static bool gamepad_buttons[15];  // `true` = pressed
         inline static float gamepad_axes[6];
         bool Update(); // returns `false` if window should close
 

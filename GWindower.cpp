@@ -58,11 +58,11 @@ GWindower::GWindower() {
         if (glfwRawMouseMotionSupported()) glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
         glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
-                GWindower::key_states[key] = action;
+                GWindower::key_states[key] = (action != GLFW_RELEASE);
         });
 
         glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods){
-                GWindower::mouse_button_states[button] = action;
+                GWindower::mouse_button_states[button] = (action != GLFW_RELEASE);
         });
 
         glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset){
@@ -84,7 +84,7 @@ bool GWindower::Update() {
                 if (!glfwJoystickIsGamepad(j)) continue;
                 GLFWgamepadstate gamepad_state;
                 if (!glfwGetGamepadState(j, &gamepad_state)) continue;
-                for (int b = 0; b < GLFW_GAMEPAD_BUTTON_LAST; b++) this->gamepad_buttons[b] = gamepad_state.buttons[b];
+                for (int b = 0; b < GLFW_GAMEPAD_BUTTON_LAST; b++) this->gamepad_buttons[b] = (gamepad_state.buttons[b] != GLFW_RELEASE);
                 for (int a = 0; a < GLFW_GAMEPAD_AXIS_LAST; a++) this->gamepad_axes[a] = gamepad_state.axes[a];
                 break;
         }
