@@ -6,7 +6,7 @@
 int main() { try {
         GWindower win;
         while (win.Update()) {
-                if (win.key_states[GLFW_KEY_ESCAPE] == GLFW_PRESS) break;
+                if (win.key_states[GW_KEY_ESCAPE]) break;
         }
 
         return 0;
