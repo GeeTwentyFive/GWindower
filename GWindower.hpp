@@ -172,17 +172,14 @@
 class GWindower { public: ~GWindower();
         int screen_width; int screen_height;
         int screen_refresh_rate;
-        void* native_window_handle; // Win32 HWND / X11 Window* / Wayland wl_surface*
-        void* native_x11_display = nullptr; // <- NULL on windows & wayland
-        void* native_wayland_display = nullptr; // <- NULL on windows & X11
+        void* native_window_handle; // Win32 HWND / Wayland wl_surface*
+        void* native_wayland_display = nullptr; // <- NULL on windows
         GWindower();
 
         inline static bool key_states[GW_KEY_LAST+1];  // `true` = pressed
-        inline static int mouse_x_delta;
-        inline static int mouse_y_delta;
+        inline static int mouse_x_delta, mouse_y_delta;
         inline static bool mouse_button_states[GW_MOUSE_BUTTON_LAST+1];  // `true` = pressed
-        inline static double mouse_scroll_x_delta;
-        inline static double mouse_scroll_y_delta;
+        inline static double mouse_scroll_x_delta, mouse_scroll_y_delta;
         inline static bool gamepad_buttons[GW_GAMEPAD_BUTTON_LAST+1];  // `true` = pressed
         inline static float gamepad_axes[GW_GAMEPAD_AXIS_LAST+1];
         bool Update(); // returns `false` if window should close

@@ -4,7 +4,6 @@
 #ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #else
-#define GLFW_EXPOSE_NATIVE_X11
 #define GLFW_EXPOSE_NATIVE_WAYLAND
 #endif
 #include <GLFW/glfw3native.h>
@@ -35,15 +34,11 @@ GWindower::GWindower() {
         this->screen_refresh_rate = video_mode->refreshRate;
 
         #ifdef _WIN32
-                this->native_window_handle = (void*)glfwGetWin32Window(window);
+                this->native_window_handle = (void*)glfwGetWin32Window(window); if (this->native_window_handle == NULL) ERROR("Failed to get native window handle (Win32 HWND)");
         #else
-                int platform = glfwGetPlatform();
-                if (platform == 0) ERROR("Failed to get platform");
-                if (platform == GLFW_PLATFORM_X11) {this->native_window_handle = (void*)glfwGetX11Window(window); this->native_x11_display = (void*)glfwGetX11Display();}
-                else if (platform == GLFW_PLATFORM_WAYLAND) {this->native_window_handle = (void*)glfwGetWaylandWindow(window); this->native_wayland_display = (void*)glfwGetWaylandDisplay();}
-                else ERROR("Unsupported platform");
+                this->native_window_handle = (void*)glfwGetWaylandWindow(window); if (this->native_window_handle == NULL) ERROR("Failed to get native window handle (Wayland wl_surface*)");
+                this->native_wayland_display = (void*)glfwGetWaylandDisplay(); if (this->native_wayland_display == NULL) ERROR("Failed to get native wl_display*");
         #endif
-        if (this->native_window_handle == NULL) ERROR("Failed to get native window handle");
 
         memset(GWindower::key_states, GLFW_RELEASE, (sizeof(GWindower::key_states) / sizeof(GWindower::key_states[0])));
         GWindower::mouse_x_delta = 0;
