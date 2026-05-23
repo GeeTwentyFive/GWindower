@@ -170,7 +170,7 @@
 
 
 class GWindower { public: ~GWindower();
-        int screen_width; int screen_height;
+        int screen_width, screen_height;
         int screen_refresh_rate;
         void* native_window_handle; // Win32 HWND / Wayland wl_surface*
         void* native_wayland_display = nullptr; // <- NULL on windows
