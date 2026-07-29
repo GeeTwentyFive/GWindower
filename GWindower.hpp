@@ -174,13 +174,12 @@ class GWindower { public: ~GWindower();
         int screen_refresh_rate;
         void* native_window_handle; // Win32 HWND / Wayland wl_surface*
         void* native_wayland_display = nullptr; // <- NULL on windows
-        GWindower();
+        GWindower(int window_width = 0, int window_height = 0);  // leave width and height at 0 for fullscreen
 
         inline static bool key_states[GW_KEY_LAST+1];  // `true` = pressed
-        inline static int mouse_x_delta, mouse_y_delta;
+        inline static int mouse_x, mouse_y;  // is delta in fullscreen, absolute in windowed
         inline static bool mouse_button_states[GW_MOUSE_BUTTON_LAST+1];  // `true` = pressed
-        inline static double mouse_scroll_x_delta, mouse_scroll_y_delta;
         inline static bool gamepad_buttons[GW_GAMEPAD_BUTTON_LAST+1];  // `true` = pressed
         inline static float gamepad_axes[GW_GAMEPAD_AXIS_LAST+1];
-        bool Update(); // returns `false` if window should close
+        bool Update(bool sleep_until_input = false); // returns `false` if window should close
 };
