@@ -1,4 +1,9 @@
 c++ -O2 -march=x86-64-v2 -I ../libs/linux/glfw -c ../GWindower.cpp -o GWindower.o &&
-ar x ../libs/linux/glfw/libglfw3.a &&
-ar rcs libgwindower.a *.o
-rm *.o
+ar -M <<EOF
+CREATE libGWindower_linux.a
+ADDMOD GWindower.o
+ADDLIB ../libs/linux/glfw/libglfw3.a
+SAVE
+END
+EOF
+rm GWindower.o

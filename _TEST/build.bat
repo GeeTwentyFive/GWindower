@@ -1,1 +1,1 @@
-c++ -O2 -march=x86-64-v2 -I ../libs/windows/glfw main.cpp ../build/libgwindower.a -lgdi32 -lwinmm -o TEST.exe
+c++ -O2 -march=x86-64-v2 main.cpp ../build/libGWindower_windows.a -lgdi32 -o TEST.exe

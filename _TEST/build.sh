@@ -1,1 +1,1 @@
-c++ -O2 -march=x86-64-v2 -I ../libs/linux/glfw main.cpp ../build/libgwindower.a -o TEST
+c++ -O2 -march=x86-64-v2 main.cpp ../build/libGWindower_linux.a -o TEST
