@@ -1,3 +1,6 @@
+# PROJECT MOVED TO https://github.com/GeeTwentyFive/libGWindower
+
+
 (intended to be used with a separate renderer library by giving it native window handle (+ wl_display* if on Linux))
 
 
